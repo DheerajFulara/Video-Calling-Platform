@@ -10,19 +10,13 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 4000;
-// const FRONTEND_URL = "https://video-calling-platform-gules.vercel.app";
 
-// ✅ Express CORS
+// ✅ CORS (Allow your frontend in production, allow all in dev)
 app.use(cors({
-  origin: process.env.FRONTEND_URL ,
+  origin: process.env.FRONTEND_URL || "*",
   methods: ["GET", "POST"],
   credentials: true
 }));
-
-// app.use(cors({
-//   origin: '*'
-// }));
-
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,10 +41,10 @@ app.use("/auth", authrouting);
 const conversationrouting = require("./routes/conversation");
 app.use("/conv", conversationrouting);
 
-// ✅ Socket.IO setup (CRITICAL FIX)
+// ✅ Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: process.env.FRONTEND_URL || "*",
     methods: ["GET", "POST"],
     credentials: true
   }
