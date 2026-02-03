@@ -53,7 +53,7 @@ const LobbyScreen = () => {
       return;
     }
 
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = "https://video-calling-platform-1-pcuv.onrender.com";
     const result = `${apiUrl}/auth`;
 
     axios

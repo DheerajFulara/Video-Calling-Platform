@@ -27,7 +27,7 @@ export const Homepage = () => {
   if (!jwt) {
     window.location.href = "/login";
   } else {
-    const result = `${import.meta.env.VITE_API_URL}/auth`;
+    const result = "https://video-calling-platform-1-pcuv.onrender.com/auth";
 
     axios
       .get(result, {
