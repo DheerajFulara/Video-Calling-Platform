@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connection to mongodb
 
-mongoose.connect("mongodb+srv://csaiml22009_db_user:dheeraj123@cluster0.tds5tc5.mongodb.net/?appName=Cluster0")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
