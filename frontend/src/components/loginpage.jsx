@@ -39,7 +39,7 @@ export const LoginPage = () => {
     // navigate('/login');
   } else {
     // console.log(process.env.REACT_APP_IP);
-    const result = `${import.meta.env.VITE_API_URL}/auth`;
+    const result = "https://video-calling-platform-1-pcuv.onrender.com/auth";
     //     console.log(result);
     axios
       .get(result, {

@@ -63,7 +63,7 @@ export const RegistrationPage = () => {
   // If user is already logged in, redirect to home
   const jwt = localStorage.getItem("access-token");
   if (jwt) {
-    const result = `${import.meta.env.VITE_API_URL}/auth`;
+    const result = "https://video-calling-platform-1-pcuv.onrender.com/auth";
 
     axios
       .get(result, {
