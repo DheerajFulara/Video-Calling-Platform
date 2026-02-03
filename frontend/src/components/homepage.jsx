@@ -27,7 +27,7 @@ export const Homepage = () => {
   if (!jwt) {
     window.location.href = "/login";
   } else {
-    const result = "https://video-calling-platform-1-pcuv.onrender.com/auth";
+    const result = "https://video-calling-platform-main.onrender.com/auth";
 
     axios
       .get(result, {

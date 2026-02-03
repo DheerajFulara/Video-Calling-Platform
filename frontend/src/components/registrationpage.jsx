@@ -63,7 +63,7 @@ export const RegistrationPage = () => {
   // If user is already logged in, redirect to home
   const jwt = localStorage.getItem("access-token");
   if (jwt) {
-    const result = "https://video-calling-platform-1-pcuv.onrender.com/auth";
+    const result = "https://video-calling-platform-main.onrender.com/auth";
 
     axios
       .get(result, {
@@ -133,7 +133,7 @@ export const RegistrationPage = () => {
     };
 
     console.log(detailsobj);
-    const result = "https://video-calling-platform-1-pcuv.onrender.com/data/registeradd";
+    const result = "https://video-calling-platform-main.onrender.com/data/registeradd";
     console.log(result);
     axios
       .post(result, detailsobj)

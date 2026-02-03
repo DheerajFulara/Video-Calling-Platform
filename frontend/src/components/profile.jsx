@@ -14,7 +14,7 @@ function ProfilePage() {
     if (!jwt) {
       navigate("/login");
     } else {
-      const apiUrl = "https://video-calling-platform-1-pcuv.onrender.com/auth";
+      const apiUrl = "https://video-calling-platform-main.onrender.com/auth";
       axios
         .get(apiUrl, { headers: { authorization: `Bearer: ${jwt}` } })
         .then((res) => setUser(res.data))

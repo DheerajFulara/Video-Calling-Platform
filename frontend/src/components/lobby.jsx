@@ -53,7 +53,7 @@ const LobbyScreen = () => {
       return;
     }
 
-    const apiUrl = "https://video-calling-platform-1-pcuv.onrender.com";
+    const apiUrl = "https://video-calling-platform-main.onrender.com";
     const result = `${apiUrl}/auth`;
 
     axios
