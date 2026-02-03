@@ -133,7 +133,7 @@ export const RegistrationPage = () => {
     };
 
     console.log(detailsobj);
-    const result = `${import.meta.env.VITE_API_URL}/data/registeradd`;
+    const result = "https://video-calling-platform-1-pcuv.onrender.com/data/registeradd";
     console.log(result);
     axios
       .post(result, detailsobj)

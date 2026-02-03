@@ -93,7 +93,7 @@ export const LoginPage = () => {
     if (detailsobj["email"] !== "" && detailsobj["password"] !== "") {
       console.log("all is well till now");
       console.log(detailsobj);
-      const result = `${import.meta.env.VITE_API_URL}/data/logincheck`;
+      const result = "https://video-calling-platform-1-pcuv.onrender.com/data/logincheck";
       console.log(result);
       axios
         .post(result, detailsobj)
