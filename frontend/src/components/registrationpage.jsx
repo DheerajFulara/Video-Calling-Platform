@@ -138,24 +138,36 @@ export const RegistrationPage = () => {
     console.log(result);
     axios
       .post(result, detailsobj)
-
       .then((res) => {
-        if (res.data.data === "Exists") {
-          window.alert("Email already registered !!");
-          setLoadercheck("");
-          navigate("/register");
-          return;
-        }
-        if (res.data.data === "Existsph") {
-          window.alert("Phone Number already registered !!");
-          setLoadercheck("");
-          navigate("/register");
-          return;
-        } else {
-          window.alert("User registered successful !!");
+        // Check status codes instead of data structure
+        if (res.status === 201) {
+          window.alert("User registered successfully!");
           setLoadercheck("");
           navigate("/login");
+        } else if (res.status === 409) {
+          // Backend returns 409 for conflicts
+          window.alert(res.data.message || "User already exists!");
+          setLoadercheck("");
+          navigate("/register");
         }
+      })
+      .catch((err) => {
+        // Handle errors properly
+        console.error("Registration error:", err);
+        if (err.response) {
+          // Server responded with error
+          if (err.response.status === 409) {
+            window.alert(err.response.data.message || "User already exists!");
+          } else {
+            window.alert(err.response.data.message || "Registration failed!");
+          }
+        } else if (err.request) {
+          // Request made but no response
+          window.alert("Cannot connect to server. Please check your connection.");
+        } else {
+          window.alert("An error occurred. Please try again.");
+        }
+        setLoadercheck("");
       });
   };
 

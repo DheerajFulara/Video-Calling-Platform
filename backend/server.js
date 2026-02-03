@@ -14,8 +14,9 @@ const PORT = process.env.PORT || 4000;
 // ✅ CORS (Allow your frontend in production, allow all in dev)
 app.use(cors({
   origin: process.env.FRONTEND_URL || "*",
-  methods: ["GET", "POST"],
-  credentials: true
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization", "authorization"]
 }));
 
 app.use(bodyParser.json());
@@ -44,8 +45,8 @@ app.use("/conv", conversationrouting);
 // ✅ Socket.IO setup
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
-    methods: ["GET", "POST"],
+    origin: process.env.FRONTEND_URL || "*",
+    methods: ["GET", "POST", "OPTIONS"],
     credentials: true
   }
 });
