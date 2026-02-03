@@ -1,28 +1,3 @@
-// import React, { createContext, useMemo, useContext, useState } from "react";
-// import { io } from "socket.io-client";
-
-// const SocketContext = createContext(null);
-
-// export const useSocket = () => {
-//   const socket = useContext(SocketContext);
-//   return socket;
-// };
-
-// export const SocketProvider = (props) => {
-//   // Build a socket URL safely; fall back to current origin
-//   const envUrl = process.env.REACT_APP_SOCKET_URL || process.env.REACT_APP_IP;
-//   const socketUrl =
-//     envUrl && typeof envUrl === "string" ? envUrl : window.location.origin;
-//   const socket = useMemo(() => io(socketUrl), [socketUrl]);
-//   const [callEnded, setCallEnded] = useState(false);
-//   const leaveCall = () => {};
-//   return (
-//     <SocketContext.Provider value={{ socket, callEnded, leaveCall }}>
-//       {props.children}
-//     </SocketContext.Provider>
-//   );
-// };
-
 
 import React, { createContext, useContext, useMemo } from "react";
 import { io } from "socket.io-client";
