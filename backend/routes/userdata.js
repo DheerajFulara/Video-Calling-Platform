@@ -18,24 +18,56 @@ router.get("/", async (req, res) => {
 });
 
 /* -------------------- REGISTER -------------------- */
+// router.post("/registeradd", async (req, res) => {
+//   try {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(422).json({ errors: errors.array() });
+//     }
+
+//     const { name, phoneno, email, category="general", password } = req.body;
+
+//     const phoneExists = await USERDATA.findOne({ Phoneno: phoneno });
+//     if (phoneExists) {
+//       return res.json({ data: "Existsph" });
+//     }
+
+//     const emailExists = await USERDATA.findOne({ Email: email });
+//     if (emailExists) {
+//       return res.json({ data: "Exists" });
+//     }
+
+//     const userdata = new USERDATA({
+//       Name: name,
+//       Phoneno: phoneno,
+//       Email: email,
+//       Category: category,
+//       Password: bcrypt.hashSync(password, 10),
+//       Friendslist: ["user1", "user2", "user3", "user4"]
+//     });
+
+//     await userdata.save();
+//     res.status(200).json({ User: "User added successfully" });
+
+//   } catch (err) {
+//     console.log("register error", err);
+//     res.status(400).json(err);
+//   }
+// });
+
 router.post("/registeradd", async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
+    const { name, phoneno, email, password, category = "general" } = req.body;
 
-    const { name, phoneno, email, category, password } = req.body;
+    if (!name || !phoneno || !email || !password) {
+      return res.status(400).json({ message: "All required fields must be provided" });
+    }
 
     const phoneExists = await USERDATA.findOne({ Phoneno: phoneno });
-    if (phoneExists) {
-      return res.json({ data: "Existsph" });
-    }
+    if (phoneExists) return res.status(409).json({ message: "Phone already exists" });
 
     const emailExists = await USERDATA.findOne({ Email: email });
-    if (emailExists) {
-      return res.json({ data: "Exists" });
-    }
+    if (emailExists) return res.status(409).json({ message: "Email already exists" });
 
     const userdata = new USERDATA({
       Name: name,
@@ -43,17 +75,18 @@ router.post("/registeradd", async (req, res) => {
       Email: email,
       Category: category,
       Password: bcrypt.hashSync(password, 10),
-      Friendslist: ["user1", "user2", "user3", "user4"]
+      Friendslist: []
     });
 
     await userdata.save();
-    res.status(200).json({ User: "User added successfully" });
+    return res.status(201).json({ message: "User registered successfully" });
 
   } catch (err) {
-    console.log("register error", err);
-    res.status(400).json(err);
+    console.error("Register error:", err);
+    return res.status(500).json({ message: "Server error", error: err.message });
   }
 });
+
 
 /* -------------------- LOGIN -------------------- */
 router.post("/logincheck", async (req, res) => {

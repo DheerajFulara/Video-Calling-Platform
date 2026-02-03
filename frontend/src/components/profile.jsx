@@ -14,7 +14,7 @@ function ProfilePage() {
     if (!jwt) {
       navigate("/login");
     } else {
-      const apiUrl = "https://video-calling-platform-main.onrender.com/auth";
+      const apiUrl = `${import.meta.env.VITE_API_URL}/auth`;
       axios
         .get(apiUrl, { headers: { authorization: `Bearer: ${jwt}` } })
         .then((res) => setUser(res.data))

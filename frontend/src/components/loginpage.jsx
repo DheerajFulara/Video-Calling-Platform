@@ -39,7 +39,7 @@ export const LoginPage = () => {
     // navigate('/login');
   } else {
     // console.log(process.env.REACT_APP_IP);
-    const result = "https://video-calling-platform-main.onrender.com/auth";
+    const result = `${import.meta.env.VITE_API_URL}/auth`;
     //     console.log(result);
     axios
       .get(result, {
@@ -93,7 +93,7 @@ export const LoginPage = () => {
     if (detailsobj["email"] !== "" && detailsobj["password"] !== "") {
       console.log("all is well till now");
       console.log(detailsobj);
-      const result = "https://video-calling-platform-main.onrender.com/data/logincheck";
+      const result = `${import.meta.env.VITE_API_URL}/data/logincheck`;
       console.log(result);
       axios
         .post(result, detailsobj)

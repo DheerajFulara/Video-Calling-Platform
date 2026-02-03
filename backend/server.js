@@ -8,21 +8,27 @@ const { Server } = require("socket.io");
 const app = express();
 const server = http.createServer(app);
 
-const PORT = process.env.PORT || 10000;
-const FRONTEND_URL = "https://video-calling-platform-gules.vercel.app";
+const PORT = process.env.PORT || 4000;
+// const FRONTEND_URL = "https://video-calling-platform-gules.vercel.app";
 
 // ✅ Express CORS
+// app.use(cors({
+//   origin: FRONTEND_URL,
+//   methods: ["GET", "POST"],
+//   credentials: true
+// }));
+
 app.use(cors({
-  origin: FRONTEND_URL,
-  methods: ["GET", "POST"],
-  credentials: true
+  origin: '*'
 }));
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // ✅ MongoDB Connection
-mongoose.connect(process.env.MONGO_URI)
+// mongoose.connect(process.env.MONGO_URI)
+mongoose.connect("mongodb+srv://csaiml22009_db_user:dheeraj123@cluster0.tds5tc5.mongodb.net/?appName=Cluster0")
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error("MongoDB error:", err));
 
@@ -44,7 +50,7 @@ app.use("/conv", conversationrouting);
 // ✅ Socket.IO setup (CRITICAL FIX)
 const io = new Server(server, {
   cors: {
-    origin: FRONTEND_URL,
+    origin: '*',
     methods: ["GET", "POST"],
     credentials: true
   }

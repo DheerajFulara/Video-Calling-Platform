@@ -63,8 +63,9 @@ export const RegistrationPage = () => {
   // If user is already logged in, redirect to home
   const jwt = localStorage.getItem("access-token");
   if (jwt) {
-    const result = "https://video-calling-platform-main.onrender.com/auth";
 
+    const result = `${import.meta.env.VITE_API_URL}/auth`;
+    console.log("jwt is: ", jwt);
     axios
       .get(result, {
         headers: { authorization: `Bearer: ${jwt}` },
@@ -133,7 +134,7 @@ export const RegistrationPage = () => {
     };
 
     console.log(detailsobj);
-    const result = "https://video-calling-platform-main.onrender.com/data/registeradd";
+    const result = `${import.meta.env.VITE_API_URL}/data/registeradd`;
     console.log(result);
     axios
       .post(result, detailsobj)
