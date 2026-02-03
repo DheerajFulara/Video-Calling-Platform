@@ -13,15 +13,15 @@ const PORT = process.env.PORT || 4000;
 // const FRONTEND_URL = "https://video-calling-platform-gules.vercel.app";
 
 // ✅ Express CORS
-// app.use(cors({
-//   origin: FRONTEND_URL,
-//   methods: ["GET", "POST"],
-//   credentials: true
-// }));
-
 app.use(cors({
-  origin: '*'
+  origin: process.env.FRONTEND_URL ,
+  methods: ["GET", "POST"],
+  credentials: true
 }));
+
+// app.use(cors({
+//   origin: '*'
+// }));
 
 
 app.use(bodyParser.json());
