@@ -5,7 +5,7 @@ import { io } from "socket.io-client";
 const SocketContext = createContext(null);
 
 // 🔥 MUST point to backend
-const socket = io("https://video-calling-platform-q9et.onrender.com", {
+const socket = io("https://video-calling-platform-1-pcuv.onrender.com", {
   transports: ["websocket"],
 });
 

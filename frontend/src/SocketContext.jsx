@@ -6,7 +6,7 @@ import Peer from "simple-peer";
 const SocketContext = createContext();
 
 // 🔥 IMPORTANT: backend URL
-const socket = io("https://video-calling-platform-q9et.onrender.com");
+const socket = io("https://video-calling-platform-1-pcuv.onrender.com");
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
