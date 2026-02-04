@@ -36,7 +36,6 @@ export const LoginPage = () => {
 
   const jwt = localStorage.getItem("access-token");
   if (!jwt) {
-    navigate('/register');
   } else {
     const result = `${import.meta.env.VITE_API_URL}/auth`;
     axios
