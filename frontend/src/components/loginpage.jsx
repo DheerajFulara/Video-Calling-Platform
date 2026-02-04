@@ -35,7 +35,9 @@ export const LoginPage = () => {
   const navigate = useNavigate();
 
   const jwt = localStorage.getItem("access-token");
-   
+  if (!jwt) {
+    navigate('/register');
+  } else {
     const result = `${import.meta.env.VITE_API_URL}/auth`;
     axios
       .get(result, {
@@ -50,7 +52,7 @@ export const LoginPage = () => {
         localStorage.removeItem("access-token");
         // navigate('/login');
       });
-  
+  }
 
   const [pass, setPass] = useState("");
   const [email, setEmail] = useState("");
