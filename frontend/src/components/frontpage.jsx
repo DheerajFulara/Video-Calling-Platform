@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import image from './homepageutils/images.jpeg';
 import { Button } from "@mui/material";
 import axios from "axios";
 
@@ -23,9 +22,7 @@ const FrontPage = () => {
   if (!jwt) {
     history("/login");
   } else {
-    // console.log(process.env.REACT_APP_IP);
     const result = `${import.meta.env.VITE_API_URL}/auth`;
-    //     console.log(result);
     axios
       .get(result, {
         headers: { authorization: `Bearer ${jwt}` },

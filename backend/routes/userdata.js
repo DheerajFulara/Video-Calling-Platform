@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const USERDATA = require("../models/userschema");
-const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
@@ -17,43 +16,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* -------------------- REGISTER -------------------- */
-// router.post("/registeradd", async (req, res) => {
-//   try {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(422).json({ errors: errors.array() });
-//     }
-
-//     const { name, phoneno, email, category="general", password } = req.body;
-
-//     const phoneExists = await USERDATA.findOne({ Phoneno: phoneno });
-//     if (phoneExists) {
-//       return res.json({ data: "Existsph" });
-//     }
-
-//     const emailExists = await USERDATA.findOne({ Email: email });
-//     if (emailExists) {
-//       return res.json({ data: "Exists" });
-//     }
-
-//     const userdata = new USERDATA({
-//       Name: name,
-//       Phoneno: phoneno,
-//       Email: email,
-//       Category: category,
-//       Password: bcrypt.hashSync(password, 10),
-//       Friendslist: ["user1", "user2", "user3", "user4"]
-//     });
-
-//     await userdata.save();
-//     res.status(200).json({ User: "User added successfully" });
-
-//   } catch (err) {
-//     console.log("register error", err);
-//     res.status(400).json(err);
-//   }
-// });
+/* -------------------- REGISTER USER -------------------- */
 
 router.post("/registeradd", async (req, res) => {
   try {

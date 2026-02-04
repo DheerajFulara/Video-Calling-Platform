@@ -11,13 +11,23 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 4000;
 
-// ✅ CORS (Allow your frontend in production, allow all in dev)
+const allowedOrigins = [
+  process.env.FRONTEND_URL
+];
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "*",
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization", "authorization"]
+  credentials: true
 }));
+
+const io = new Server(server, {
+  cors: {
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true
+  }
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -39,17 +49,6 @@ app.use("/data", userdatarouting);
 const authrouting = require("./routes/auth");
 app.use("/auth", authrouting);
 
-const conversationrouting = require("./routes/conversation");
-app.use("/conv", conversationrouting);
-
-// ✅ Socket.IO setup
-const io = new Server(server, {
-  cors: {
-    origin: process.env.FRONTEND_URL || "*",
-    methods: ["GET", "POST", "OPTIONS"],
-    credentials: true
-  }
-});
 
 // ================= SOCKET LOGIC =================
 

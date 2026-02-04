@@ -35,12 +35,8 @@ export const LoginPage = () => {
   const navigate = useNavigate();
 
   const jwt = localStorage.getItem("access-token");
-  if (!jwt) {
-    // navigate('/login');
-  } else {
-    // console.log(process.env.REACT_APP_IP);
+   
     const result = `${import.meta.env.VITE_API_URL}/auth`;
-    //     console.log(result);
     axios
       .get(result, {
         headers: { authorization: `Bearer: ${jwt}` },
@@ -54,7 +50,7 @@ export const LoginPage = () => {
         localStorage.removeItem("access-token");
         // navigate('/login');
       });
-  }
+  
 
   const [pass, setPass] = useState("");
   const [email, setEmail] = useState("");

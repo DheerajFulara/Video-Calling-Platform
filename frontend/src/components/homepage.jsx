@@ -5,12 +5,11 @@ import styled from "styled-components";
 import { ButtonBack, ButtonNext } from "pure-react-carousel";
 import Arrow from "./homepageutils/arrow.svg";
 import axios from "axios";
-import { AiOutlineMessage } from "react-icons/ai";
 import { AiOutlineVideoCamera } from "react-icons/ai";
 import { TiUserOutline } from "react-icons/ti";
 import { AiFillHome } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { BiPhoneCall } from "react-icons/bi";
+
 
 const slidestyle = {
   margin: "auto",
