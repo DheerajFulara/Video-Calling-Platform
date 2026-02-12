@@ -25,7 +25,7 @@ class PeerService {
   
     async setLocalDescription(ans) {
       if (this.peer) {
-        await this.peer.setRemoteDescription(new RTCSessionDescription(ans));
+        await this.peer.setRemoteDescription(new RTCSessionDescription(ans));    //Applies remote answer to complete handshake
       }
     }
   

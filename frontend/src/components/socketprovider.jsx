@@ -20,7 +20,7 @@ export const SocketProvider = ({ children }) => {
 };
 
 export const useSocket = () => {
-  const socket = useContext(SocketContext);
+  const socket = useContext(SocketContext); //access socket in any component
   if (!socket) {
     throw new Error("useSocket must be used within SocketProvider");
   }

@@ -34,7 +34,7 @@ const ContextProvider = ({ children }) => {
     socket.on("me", (id) => setMe(id));
 
     socket.on("callUser", ({ from, name, signal }) => {
-      setCall({ isReceivingCall: true, from, name, signal });
+      setCall({ isReceivingCall: true, from, name, signal });                     //from where i am receiving the call
     });
 
     return () => {
