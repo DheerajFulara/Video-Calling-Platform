@@ -3,9 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config/env");
 
-/**
- * Get all users
- */
+
 const getAllUsers = async (req, res) => {
     try {
         const data = await USERDATA.find();
@@ -17,10 +15,7 @@ const getAllUsers = async (req, res) => {
     }
 };
 
-/**
- * Register a new user
- * Optimized with async bcrypt and combined database queries
- */
+
 const registerUser = async (req, res) => {
     try {
         const { name, phoneno, email, password, category = "general" } = req.body;
@@ -29,10 +24,9 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ message: "All required fields must be provided" });
         }
 
-        // OPTIMIZATION: Combined both queries into a single $or query to reduce DB roundtrips
         const existingUser = await USERDATA.findOne({
             $or: [{ Phoneno: phoneno }, { Email: email }]
-        });
+        }).lean();
 
         if (existingUser) {
             if (existingUser.Phoneno === phoneno) {
@@ -43,9 +37,7 @@ const registerUser = async (req, res) => {
             }
         }
 
-        // OPTIMIZATION: Reduced salt rounds from 8 to 6 for faster hashing (~100ms improvement)
-        // Still secure for video calling application
-        const hashedPassword = await bcrypt.hash(password, 6);
+        const hashedPassword = await bcrypt.hash(password, 4);
 
         const userdata = new USERDATA({
             Name: name,
@@ -64,10 +56,7 @@ const registerUser = async (req, res) => {
     }
 };
 
-/**
- * Login user
- * Optimized with async bcrypt.compare
- */
+
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -76,12 +65,13 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: "Email and password are required" });
         }
 
-        const user = await USERDATA.findOne({ Email: email });
+        const user = await USERDATA.findOne({ Email: email })
+            .select('Name Phoneno Email Category Password _id')
+            .lean();
         if (!user) {
             return res.json({ data: "Invalid Credentials" });
         }
 
-        // OPTIMIZATION: Use async bcrypt.compare instead of synchronous compareSync
         const isMatch = await bcrypt.compare(password, user.Password);
         if (!isMatch) {
             return res.json({ data: "Invalid Credentials" });
@@ -109,11 +99,14 @@ const loginUser = async (req, res) => {
  */
 const getUserById = async (req, res) => {
     try {
-        const docs = await USERDATA.find({ _id: req.body.id });
-        res.status(200).json(docs);
+        const user = await USERDATA.findById(req.body.id).lean();
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json(user);
     } catch (err) {
         console.error("Error fetching user by ID:", err);
-        res.status(400).json({ message: "Error fetching user", error: err.message });
+        res.status(400).json({ message: "Invalid user ID", error: err.message });
     }
 };
 
