@@ -69,12 +69,6 @@ let userdata = new mongoose.Schema(
       required: true,
     },
 
-    // CHAT FUNCTIONALITY - Commented out as per requirement to disable chat/conversation features
-    // Friendslist field was used for managing user friends/contacts for chat
-    // Friendslist: {
-    //   type: Array,
-    //   required: true,
-    // },
   }
 );
 
