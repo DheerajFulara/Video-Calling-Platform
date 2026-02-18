@@ -16,7 +16,8 @@ const server = http.createServer(app);
 const PORT = config.port;
 
 const allowedOrigins = [
-   config.frontendurl
+  //  config.frontendurl
+  "http://localhost:5173"
 ];
 
 app.use(cors({

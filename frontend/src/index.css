@@ -1,42 +1,34 @@
-body {
-  background: rgb(42, 50, 158);
-  color: #fff;
-  font-family: monospace;
-  font-size: 16px;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-  padding: 0;
-  width: 100%;
-}
 
-.App {
-  background: linear-gradient(to bottom, #297af9, #333fb7);
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@media screen and (min-width: 768px) {
-  #root {
-    align-items: center;
-    display: flex;
+/* Global overrides and small helpers */
+@layer base {
+  html, body, #root {
     height: 100%;
-    justify-content: center;
   }
-
-  .App {
-    border-radius: 10px;
-    box-shadow: 0 3px 20px 0 rgba(0, 0, 0, .06);
-    height: 667px;
-    overflow: hidden;
-    width: 375px;
+  body {
+    @apply bg-gradient-to-br from-slate-50 to-white text-slate-900 antialiased;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    margin: 0;
   }
 }
 
+/* App wrapper style used by existing components */
+.App {
+  @apply min-h-screen flex flex-col;
+}
+
+/* phone-like centered card wrapper */
+.phone-card {
+  @apply mx-auto my-12 w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden;
+}
+
+/* for small-screen safe spacing */
+.safe-pad {
+  @apply px-6 py-6;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

@@ -4,12 +4,12 @@ import { io } from "socket.io-client";
 const SocketContext = createContext(null);
 
 // 🔥 MUST point to backend
-// const socket = io("http://localhost:4000", {
-//   transports: ["websocket"],
-// });
-const socket = io("https://video-calling-platform-main.onrender.com", {
+const socket = io("http://localhost:4000", {
   transports: ["websocket"],
 });
+// const socket = io("https://video-calling-platform-main.onrender.com", {
+//   transports: ["websocket"],
+// });
 
 export const SocketProvider = ({ children }) => {
   const value = useMemo(() => socket, []);

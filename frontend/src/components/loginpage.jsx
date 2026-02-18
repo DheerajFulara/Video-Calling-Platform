@@ -1,36 +1,8 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import axios from "axios";
-import FormHelperText from "@mui/material/FormHelperText";
-import FormControl from "@mui/material/FormControl";
-import { Button } from "@mui/material";
 import LoopCircleLoading from "./loader.jsx";
 import { useAuth } from "../contexts/AuthContext";
-
-const TextField = styled.input.attrs((props) => ({
-  type: "text",
-  size: 30,
-}))`
-  border-radius: 3px;
-  border: 1px solid palevioletred;
-  display: block;
-  margin: 0 0 3px;
-  padding: ${(props) => props.padding};
-`;
-
-const PasswordField = styled.input.attrs((props) => ({
-  type: "password",
-  size: 30,
-}))`
-  border-radius: 3px;
-  border: 1px solid palevioletred;
-  display: block;
-  margin: 0 0 3px;
-  align: center;
-  padding: ${(props) => props.padding};
-`;
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -38,151 +10,112 @@ export const LoginPage = () => {
 
   const [pass, setPass] = useState("");
   const [email, setEmail] = useState("");
-
-  const [helperemail, setHelperemail] = useState("");
-  const [helperpass, setHelperpass] = useState("");
+  const [errors, setErrors] = useState({});
   const [invaliduser, setInvaliduser] = useState("");
-  const [loadercheck, setLoadercheck] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const Logincheck = async () => {
-    setLoadercheck("1");
+    let newErrors = {};
 
-    if (email === "") {
-      setHelperemail("Email is necessary!!");
-      setLoadercheck("");
-      return;
-    } else {
-      setHelperemail("");
-    }
+    if (!email) newErrors.email = "Email is required";
+    if (!pass) newErrors.pass = "Password is required";
 
-    if (pass === "") {
-      setHelperpass("Password is necessary!!");
-      setLoadercheck("");
-      return;
-    } else {
-      setHelperpass("");
-    }
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
 
-    const detailsobj = {
-      email: email,
-      password: pass,
-    };
+    setLoading(true);
 
-    if (detailsobj["email"] !== "" && detailsobj["password"] !== "") {
+    try {
       const result = `${import.meta.env.VITE_API_URL}/data/logincheck`;
-      axios
-        .post(result, detailsobj)
-        .then((res) => {
-          if (res.data.data === "Invalid Credentials") {
-            setLoadercheck("");
-            setInvaliduser("Please Enter Valid Credentials");
-          } else {
-            // Use AuthContext to handle login
-            login(res.data);
-            setLoadercheck("");
-            navigate("/home");
-          }
-        })
-        .catch((err) => {
-          console.error("Login error:", err);
-          setLoadercheck("");
-          setInvaliduser("An error occurred. Please try again.");
-        });
+      const res = await axios.post(result, { email, password: pass });
+
+      if (res.data.data === "Invalid Credentials") {
+        setInvaliduser("Please enter valid credentials");
+      } else {
+        login(res.data);
+        navigate("/home");
+      }
+    } catch (err) {
+      setInvaliduser("Server error. Please try again.");
     }
+
+    setLoading(false);
   };
 
-  if (loadercheck) {
+  if (loading) {
     return (
-      <div className="App">
+      <div className="h-screen flex items-center justify-center">
         <LoopCircleLoading />
       </div>
     );
   }
 
   return (
-    <div className="App">
-      <div className="Login" align="center">
-        <p
-          style={{
-            textAlign: "center",
-            fontFamily: "Caveat",
-            fontSize: "2.5rem",
-          }}
-        >
-          Login
-        </p>
-        <br />
-        <h3>
-          {" "}
-          Email: <br />
-        </h3>
-        <FormControl error variant="standard">
-          <TextField
-            placeholder="Username/Email"
+    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 via-white to-blue-50 overflow-hidden">
+
+      {/* BACKGROUND GLOW BLOBS */}
+      <div className="absolute top-[-120px] left-[-100px] w-[400px] h-[400px] bg-indigo-300 rounded-full blur-3xl opacity-40"></div>
+      <div className="absolute bottom-[-120px] right-[-100px] w-[400px] h-[400px] bg-blue-300 rounded-full blur-3xl opacity-40"></div>
+
+      {/* CARD */}
+      <div className="relative bg-white w-full max-w-md p-8 rounded-2xl shadow-2xl transition-all duration-500 hover:shadow-indigo-200 hover:-translate-y-1">
+
+        <h2 className="text-3xl font-bold text-center text-indigo-600 mb-8">
+          Welcome Back 👋
+        </h2>
+
+        {/* EMAIL */}
+        <div className="mb-5">
+          <input
+            type="email"
+            placeholder="Email Address"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            padding="0.6em"
           />
-          <FormHelperText
-            style={{ color: "#FA9884", fontSize: "15px" }}
-            id="component-error-text"
-          >
-            {helperemail}
-          </FormHelperText>
-        </FormControl>
-        <br />
-        <h3>
-          {" "}
-          Password: <br />
-        </h3>
-        <FormControl error variant="standard">
-          <PasswordField
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+          )}
+        </div>
+
+        {/* PASSWORD */}
+        <div className="mb-6">
+          <input
+            type="password"
             placeholder="Password"
+            className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
-            padding="0.6em"
           />
-          <FormHelperText
-            style={{ color: "#FA9884", fontSize: "15px" }}
-            id="component-error-text"
-          >
-            {helperpass}
-          </FormHelperText>
-        </FormControl>
-        <br />
-        <br />
-        <br />
-        <Button
-          variant="contained"
-          style={{ width: "29%", backgroundColor: "white", color: "black" }}
-          onClick={() => {
-            Logincheck();
-          }}
+          {errors.pass && (
+            <p className="text-red-500 text-sm mt-1">{errors.pass}</p>
+          )}
+        </div>
+
+        {/* LOGIN BUTTON */}
+        <button
+          onClick={Logincheck}
+          className="w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:bg-indigo-700 hover:shadow-2xl"
         >
           Login
-        </Button>
-        <FormHelperText
-          style={{ textAlign: "center", color: "#FA9884", fontSize: "15px" }}
-          id="component-error-text"
-        >
-          {invaliduser}
-        </FormHelperText>
-        <br />
-        <br />
-        &nbsp;&nbsp;&nbsp;&nbsp;Don't have an Account yet?? &nbsp;
-        <br />
-        <br />
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "white", color: "black" }}
-          onClick={() => {
-            navigate("/register");
-          }}
-        >
-          Register
-        </Button>
-        <br />
-        <br />
+        </button>
+
+        {/* ERROR */}
+        {invaliduser && (
+          <p className="text-center text-red-500 mt-4">{invaliduser}</p>
+        )}
+
+        {/* REGISTER LINK */}
+        <p className="text-center text-gray-600 mt-6">
+          Don’t have an account?{" "}
+          <span
+            className="text-indigo-600 font-semibold cursor-pointer hover:underline"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </span>
+        </p>
+
       </div>
     </div>
   );
